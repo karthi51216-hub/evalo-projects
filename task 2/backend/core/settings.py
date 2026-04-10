@@ -26,9 +26,7 @@ SECRET_KEY = 'django-insecure-*k%q92&8rbc=bcuap4yro5os!1#@tx(g$q7y40&1qjjec4oq_9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    "evalo-projects-1.onrender.com"
-]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
