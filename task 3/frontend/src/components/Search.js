@@ -21,14 +21,14 @@ export default function Search() {
         return;
       }
 
-      try {
-        const res = await axios.get(
-          `http://127.0.0.1:8000/api/search/?q=${value}`
-        );
-        setResults(res.data);
-      } catch (err) {
-        console.error(err);
-      }
+     try {
+  const res = await axios.get(
+    `${process.env.REACT_APP_API_URL}/api/search/?q=${value}`
+  );
+  setResults(res.data);
+} catch (err) {
+  console.error(err);
+}
     }, 500);
   };
 
