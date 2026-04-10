@@ -29,12 +29,13 @@ export default function Search() {
         console.log("API RESPONSE:", res.data);
 
         // ✅ SAFE FIX (handles all backend formats)
-        const data =
-          res.data?.results ||
-          res.data?.data ||
-          (Array.isArray(res.data) ? res.data : []);
+        // const data =
+        //   res.data?.results ||
+        //   res.data?.data ||
+        //   (Array.isArray(res.data) ? res.data : []);
 
-        setResults(data);
+
+        setResults(res.data);
       } catch (err) {
         console.error("Search Error:", err);
         setResults([]);
