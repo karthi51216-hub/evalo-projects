@@ -10,7 +10,7 @@ export default function Chat() {
 
   // 🔹 Load history
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/api/history/")
+    axios.get("https://evalo-projects-3.onrender.com/api/history/")
       .then(res => setChat(res.data.reverse()))
       .catch(() => {});
   }, []);
@@ -24,7 +24,7 @@ export default function Chat() {
     if (!message.trim()) return;
 
     const res = await axios.post(
-      "http://127.0.0.1:8000/api/chat/",
+      "https://evalo-projects-3.onrender.com/api/chat/",
       { message }
     );
 
