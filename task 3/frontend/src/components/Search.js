@@ -1,41 +1,51 @@
-
-
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 
 export default function Search() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
 
-  let timer;
+  // ✅ FIX: proper debounce storage
+  const timerRef = useRef(null);
 
   const handleSearch = (e) => {
     const value = e.target.value;
     setQuery(value);
 
-    clearTimeout(timer);
+    // clear previous timer
+    clearTimeout(timerRef.current);
 
-    timer = setTimeout(async () => {
+    timerRef.current = setTimeout(async () => {
       if (value.length < 2) {
         setResults([]);
         return;
       }
 
-     try {
-  const res = await axios.get(
-    `${process.env.REACT_APP_API_URL}/api/search/?q=${value}`
-  );
-  setResults(res.data);
-} catch (err) {
-  console.error(err);
-}
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/search/?q=${value}`
+        );
+
+        console.log("API RESPONSE:", res.data);
+
+        // ✅ SAFE FIX (handles all backend formats)
+        const data =
+          res.data?.results ||
+          res.data?.data ||
+          (Array.isArray(res.data) ? res.data : []);
+
+        setResults(data);
+      } catch (err) {
+        console.error("Search Error:", err);
+        setResults([]);
+      }
     }, 500);
   };
 
   return (
     <div style={{ width: "80%", margin: "40px auto" }}>
       
-      {/* 🔍 Search Bar */}
+      {/* 🔍 SEARCH INPUT */}
       <input
         type="text"
         placeholder="Search products..."
@@ -45,11 +55,21 @@ export default function Search() {
           width: "100%",
           padding: "12px",
           fontSize: "16px",
-          marginBottom: "20px"
+          marginBottom: "20px",
+          border: "1px solid #ccc",
+          borderRadius: "8px",
+          outline: "none"
         }}
       />
 
-      {/* 🛒 Product Grid */}
+      {/* 🧠 NO RESULT HANDLING */}
+      {query.length >= 2 && results.length === 0 && (
+        <p style={{ textAlign: "center", color: "gray" }}>
+          No products found
+        </p>
+      )}
+
+      {/* 🛒 PRODUCT GRID */}
       <div
         style={{
           display: "grid",
@@ -68,22 +88,29 @@ export default function Search() {
               boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
             }}
           >
-            {/* 📸 Image */}
+            {/* 📸 IMAGE */}
             <img
               src={item.image}
               alt={item.name}
-              style={{ width: "100%", height: "150px", objectFit: "cover" }}
+              style={{
+                width: "100%",
+                height: "150px",
+                objectFit: "cover",
+                borderRadius: "6px"
+              }}
             />
 
-            {/* 📝 Name */}
-            <h4 style={{ margin: "10px 0" }}>{item.name}</h4>
+            {/* 📝 NAME */}
+            <h4 style={{ margin: "10px 0" }}>
+              {item.name}
+            </h4>
 
-            {/* 💰 Price */}
+            {/* 💰 PRICE */}
             <p style={{ color: "green", fontWeight: "bold" }}>
               ₹{item.price}
             </p>
 
-            {/* 🛒 Button */}
+            {/* 🛒 BUTTON */}
             <button
               style={{
                 padding: "8px 12px",
@@ -101,4 +128,3 @@ export default function Search() {
     </div>
   );
 }
-
