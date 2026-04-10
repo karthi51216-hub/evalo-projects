@@ -1,9 +1,7 @@
-
-
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://your-backend-url.onrender.com/api/",
+  baseURL: "https://evalo-projects.onrender.com/api/",
 });
 
 API.interceptors.request.use((req) => {

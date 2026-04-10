@@ -11,19 +11,35 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    try {
-      const res = await API.post("login/", {
-        username,
-        password,
-      });
+  // const handleLogin = async () => {
+  //   try {
+  //     const res = await API.post("login/", {
+  //       username,
+  //       password,
+  //     });
 
-      localStorage.setItem("token", res.data.access);
-      navigate("/dashboard");
-    } catch (err) {
-      setError("Invalid username or password ❌");
-    }
-  };
+  //     localStorage.setItem("token", res.data.access);
+  //     navigate("/dashboard");
+  //   } catch (err) {
+  //     setError("Invalid username or password ❌");
+  //   }
+  // };
+const handleLogin = async () => {
+  try {
+    const res = await API.post("login/", {
+      username,
+      password,
+    });
+
+    console.log(res.data); // check response
+
+    localStorage.setItem("token", res.data.access); // IMPORTANT
+
+    navigate("/dashboard");
+  } catch (err) {
+    setError("Invalid username or password ❌");
+  }
+};
 
   return (
     <div style={{ textAlign: "center", marginTop: "100px" }}>
