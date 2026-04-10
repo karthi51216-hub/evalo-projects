@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,17 +26,14 @@ SECRET_KEY = 'django-insecure-bb9622=5!r#l0fd#qv!8-b%tqn2kn_lx3)_3!4=$i7o132)+ck
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = [
-#     "evalo-projects-3.onrender.com",
-#     "localhost",
-#     "127.0.0.1"
-# ]
+ALLOWED_HOSTS = [
+    "evalo-projects-3.onrender.com",
+    "localhost",
+    "127.0.0.1"
+]
 
 
-ALLOWED_HOSTS = os.environ.get(
-    "ALLOWED_HOSTS",
-    "localhost,127.0.0.1"
-).split(",")
+
 
 # Application definition
 
